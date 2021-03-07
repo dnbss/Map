@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Map", "Map\Map.csproj", "{DDDB6F59-E09D-4C27-B141-F2DF0B8CE86B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDDB6F59-E09D-4C27-B141-F2DF0B8CE86B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDDB6F59-E09D-4C27-B141-F2DF0B8CE86B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDDB6F59-E09D-4C27-B141-F2DF0B8CE86B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDDB6F59-E09D-4C27-B141-F2DF0B8CE86B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
