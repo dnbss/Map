@@ -6,38 +6,38 @@ using System.Net.Http.Headers;
 
 namespace Map
 {
-    public class RBTree<TValue>
+    public class RBTree<TKey, TValue> where TKey : notnull, IComparable
     {
-        public Node<TValue> root;
+        protected Node<TKey, TValue> root;
         
         public RBTree()
         {
             root = null;
         }
 
-        public RBTree(int key, TValue data)
+        public RBTree(TKey key, TValue data)
         {
-            root = new Node<TValue>(key, data, Color.Black);
+            root = new Node<TKey, TValue>(key, data, Color.Black);
         }
 
-        public virtual void Insert(int key, TValue data)
+        public virtual void Insert(TKey key, TValue data)
         {
             if (root == null)
             {
-                root = new Node<TValue>(key, data, Color.Black);
+                root = new Node<TKey, TValue>(key, data, Color.Black);
                 
                 return;
             }
             
-            Node<TValue> node = new Node<TValue>(key, data, Color.Red);
-            Node<TValue> curr = root;
-            Node<TValue> parent = null;
+            Node<TKey, TValue> node = new Node<TKey, TValue>(key, data, Color.Red);
+            Node<TKey, TValue> curr = root;
+            Node<TKey, TValue> parent = null;
             
             while (curr != null)
             {
                 parent = curr;
                 
-                if (node.key < curr.key)
+                if (node.key.CompareTo(curr.key) < 0)
                 {
                     curr = curr.leftChild;
                 }
@@ -53,7 +53,7 @@ namespace Map
             {
                 root = node;
             }
-            else if (node.key < parent.key)
+            else if (node.key.CompareTo(parent.key) < 0)
             {
                 node.parent.leftChild = node;
             }
@@ -71,7 +71,7 @@ namespace Map
             root.parent = null;
         }
 
-        private void RecoveryInsert(Node<TValue> node)
+        private void RecoveryInsert(Node<TKey, TValue> node)
         {
             if (node.parent == null || node.parent.color == Color.Black)
             {
@@ -140,9 +140,9 @@ namespace Map
             
         }
 
-        public void Remove(int key)
+        public void Remove(TKey key)
         {
-            Node<TValue> node;
+            Node<TKey, TValue> node;
 
             try
             {
@@ -161,9 +161,9 @@ namespace Map
             
             if (node.leftChild != null && node.rightChild != null)
             {
-                Node<TValue> closestNode = ClosestNode(node);
+                Node<TKey, TValue> closestNode = ClosestNode(node);
 
-                Node<TValue> temp = closestNode;
+                Node<TKey, TValue> temp = closestNode;
                 closestNode = node;
                 node = temp;
 
@@ -193,7 +193,7 @@ namespace Map
             }
         }
 
-        private void RecoveryRemove(Node<TValue> node)
+        private void RecoveryRemove(Node<TKey, TValue> node)
         {
             if (node == Color.Red)
             {
@@ -334,9 +334,9 @@ namespace Map
             }
         }
 
-        private void Swap(Node<TValue> node1, Node<TValue> node2)
+        private void Swap(Node<TKey, TValue> node1, Node<TKey,TValue> node2)
         {
-            int tempKey = node1.key;
+            TKey tempKey = node1.key;
             node1.key = node2.key;
             node2.key = tempKey;
 
@@ -345,14 +345,14 @@ namespace Map
             node2.data = tempData;
         }
 
-        private void LeftRotate(Node<TValue> y)
+        private void LeftRotate(Node<TKey, TValue> y)
         {
             if (y == null)
             {
                 return;
             }
             
-            Node<TValue> x = y.rightChild;
+            Node<TKey, TValue> x = y.rightChild;
             
             if (x == null)
             {
@@ -387,14 +387,14 @@ namespace Map
             y.parent = x;
         }
 
-        private void RightRotate(Node<TValue> y)
+        private void RightRotate(Node<TKey, TValue> y)
         {
             if (y == null)
             {
                 return;
             }
             
-            Node<TValue> x = y.leftChild;
+            Node<TKey, TValue> x = y.leftChild;
             
             if (x == null)
             {
@@ -429,9 +429,9 @@ namespace Map
             y.parent = x;
         }
 
-        public Node<TValue> Find(int key)
+        public Node<TKey,TValue> Find(TKey key)
         {
-            Node<TValue> curr = root;
+            Node<TKey, TValue> curr = root;
             bool isFound = false;
 
             while (!isFound)
@@ -441,11 +441,11 @@ namespace Map
                     throw new Exception("Item not found!");
                 }
 
-                if (key < curr.key)
+                if (key.CompareTo(curr.key) < 0)
                 {
                     curr = curr.leftChild;
                 }
-                else if (key > curr.key)
+                else if (key.CompareTo(curr.key) > 0)
                 {
                     curr = curr.rightChild;
                 }
@@ -460,11 +460,11 @@ namespace Map
 
         public void Clear()
         {
-            Stack<Node<TValue>> stack = new Stack<Node<TValue>>();
+            Stack<Node<TKey, TValue>> stack = new Stack<Node<TKey, TValue>>();
             
             stack.Push(root);
 
-            Node<TValue> cur;
+            Node<TKey, TValue> cur;
 
             while (!stack.IsEmpty())
             {
@@ -498,7 +498,7 @@ namespace Map
             root = null;
         }
 
-        protected void ResetIsProcessed(Node<TValue> cur)
+        protected void ResetIsProcessed(Node<TKey,TValue> cur)
         {
             if (cur == null)
             {
@@ -511,9 +511,9 @@ namespace Map
             ResetIsProcessed(cur.rightChild);
         }
 
-        private Node<TValue> ClosestNode(Node<TValue> node)
+        private Node<TKey,TValue> ClosestNode(Node<TKey,TValue> node)
         {
-            Node<TValue> curr = node.rightChild;
+            Node<TKey,TValue> curr = node.rightChild;
 
             while (curr != null && curr.leftChild != null)
             {
@@ -523,12 +523,12 @@ namespace Map
             return curr;
         }
 
-        private Node<TValue> GrandFather(Node<TValue> node)
+        private Node<TKey, TValue> GrandFather(Node<TKey, TValue> node)
         {
             return node.parent.parent;
         }
         
-        private Node<TValue> Uncle(Node<TValue> node)
+        private Node<TKey, TValue> Uncle(Node<TKey, TValue> node)
         {
             if (GrandFather(node) == null)
             {
@@ -538,7 +538,7 @@ namespace Map
             return GrandFather(node).leftChild != node.parent ? GrandFather(node).leftChild : GrandFather(node).rightChild;
         }
 
-        private Node<TValue> Brother(Node<TValue> node)
+        private Node<TKey, TValue> Brother(Node<TKey, TValue> node)
         {
             return node.parent.leftChild != node ? node.parent.leftChild : node.parent.rightChild;
         }

@@ -1,22 +1,22 @@
 ﻿namespace Map
 {
-    public class Node<T>
+    public class Node<TKey, TValue>
     {
         public Color color;
 
-        public Node<T> parent;
+        public Node<TKey, TValue> parent;
         
-        public Node<T> leftChild;
+        public Node<TKey, TValue> leftChild;
 
-        public Node<T> rightChild;
+        public Node<TKey, TValue> rightChild;
 
-        public T data;
+        public TValue data;
 
-        public int key;
+        public TKey key;
 
         public bool isProcessed;
 
-        public Node(int key, T data, Color color)
+        public Node(TKey key, TValue data, Color color)
         {
             this.data = data;
 
@@ -33,7 +33,7 @@
             isProcessed = false;
         }
 
-        public static bool operator ==(Node<T> node, Color color)
+        public static bool operator ==(Node<TKey, TValue> node, Color color)
         {
             if (node == null)
             {
@@ -51,7 +51,7 @@
 
         }
 
-        public static bool operator !=(Node<T> node, Color colorNode2)
+        public static bool operator !=(Node<TKey, TValue> node, Color colorNode2)
         {
             return !(node == colorNode2);
         }

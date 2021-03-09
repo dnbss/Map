@@ -8,7 +8,7 @@ namespace Map
     {
         static void Main(string[] args)
         {
-            Map<char> map = new Map<char>();
+            Map<int, char> map = new Map<int, char>();
             
             map.Insert(2,'a');
             map.Insert(3,'b');
@@ -27,6 +27,8 @@ namespace Map
 
             map.Clear();
             map.Print();
+           
         }
     }
+
 }

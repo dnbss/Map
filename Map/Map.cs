@@ -1,30 +1,31 @@
 ﻿using System;
+using System.Collections;
 
 namespace Map
 {
-    public class Map<TValue> : RBTree<TValue>
+    public class Map<TKey, TValue> : RBTree<TKey, TValue> where TKey : notnull, IComparable
     {
         public Map()
         {
             
         }
         
-        public Map(int key, TValue data) : base(key, data)
+        public Map(TKey key, TValue data) : base(key, data)
         {
             
         }
 
-        public Queue<int> GetKeys()
+        public Queue<TKey> GetKeys()
         {
             ResetIsProcessed(root);
             
-            Queue<int> queue = new Queue<int>();
+            Queue<TKey> queue = new Queue<TKey>();
             
-            Iterator<Node<TValue>> iterator = new RBTreeIterator<TValue>(root);
+            Iterator<Node<TKey, TValue>> iterator = new RBTreeIterator<TKey,TValue>(root);
 
             while (iterator.HasNext())
             {
-                int key = iterator.Next().key;
+                TKey key = iterator.Next().key;
                 
                 queue.Push(key);
             }
@@ -38,7 +39,7 @@ namespace Map
             
             Queue<TValue> queue = new Queue<TValue>();
             
-            Iterator<Node<TValue>> iterator = new RBTreeIterator<TValue>(root);
+            Iterator<Node<TKey, TValue>> iterator = new RBTreeIterator<TKey, TValue>(root);
 
             while (iterator.HasNext())
             {
@@ -50,7 +51,7 @@ namespace Map
             return queue;
         }
 
-        public override void Insert(int key, TValue data)
+        public override void Insert(TKey key, TValue data)
         {
             bool isExist = true;
             
@@ -78,7 +79,7 @@ namespace Map
             Print(root);
         }
 
-        private void Print(Node<TValue> node)
+        private void Print(Node<TKey, TValue> node)
         {
             if (node == null)
             {

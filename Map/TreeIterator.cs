@@ -1,12 +1,12 @@
 ﻿namespace Map
 {
-    public class RBTreeIterator<TValue> : Iterator<Node<TValue>>
+    public class RBTreeIterator<TKey, TValue> : Iterator<Node<TKey, TValue>>
     {
-        private Stack<Node<TValue>> stack;
+        private Stack<Node<TKey,TValue>> stack;
 
-        public RBTreeIterator(Node<TValue> start)
+        public RBTreeIterator(Node<TKey, TValue> start)
         {
-            stack = new Stack<Node<TValue>>();
+            stack = new Stack<Node<TKey,TValue>>();
                 
             stack.Push(start);
         }
@@ -16,9 +16,9 @@
             return !(stack.IsEmpty());
         }
 
-        public override Node<TValue> Next()
+        public override Node<TKey, TValue> Next()
         {
-            Node<TValue> cur = stack.Top.node;
+            Node<TKey, TValue> cur = stack.Top.node;
 
             while (cur.leftChild != null && !cur.leftChild.isProcessed)
             {
