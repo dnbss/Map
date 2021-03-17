@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace Map
 {
@@ -57,7 +58,7 @@ namespace Map
             
             try
             {
-                Find(key);
+                FindNode(key);
             }
             catch
             {
@@ -76,21 +77,31 @@ namespace Map
         
         public void Print()
         {
-            Print(root);
+            string output = PrintToString();
+            
+            Console.WriteLine(output);
         }
 
-        private void Print(Node<TKey, TValue> node)
+        public string PrintToString()
         {
-            if (node == null)
+            
+            Queue<TValue> values = GetValues();
+            
+            Queue<TKey> keys = GetKeys();
+
+            string output = "";
+
+            if (keys == null)
             {
-                return;
+                return output;
             }
             
-            Print(node.leftChild);
+            while (!keys.IsEmpty())
+            {
+                output += $"Key: {keys.Pop()} | Data: {values.Pop()}\n";
+            }
 
-            Console.WriteLine($"Key:{node.key} | Data:{node.data} | {node.color}");
-            
-            Print(node.rightChild);
+            return output;
         }
     }
 }

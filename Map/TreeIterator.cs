@@ -7,8 +7,11 @@
         public RBTreeIterator(Node<TKey, TValue> start)
         {
             stack = new Stack<Node<TKey,TValue>>();
-                
-            stack.Push(start);
+
+            if (start != null)
+            {
+                stack.Push(start);
+            }
         }
 
         public override bool HasNext()

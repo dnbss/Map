@@ -26,6 +26,7 @@ namespace Map
             map.Insert(14,'o');
 
             map.Clear();
+
             map.Print();
            
         }

@@ -146,7 +146,7 @@ namespace Map
 
             try
             {
-                node = Find(key);
+                node = FindNode(key);
             }
             catch (Exception e)
             {
@@ -186,7 +186,7 @@ namespace Map
                 {
                     node.parent.leftChild = null;
                 }
-                else
+                else 
                 {
                     node.parent.rightChild = null;
                 }
@@ -197,14 +197,6 @@ namespace Map
         {
             if (node == Color.Red)
             {
-                if (node.parent.leftChild == node)
-                {
-                    node.parent.leftChild = null;
-                }
-                else
-                {
-                    node.parent.rightChild = null;
-                }
                 return;
             }
 
@@ -429,7 +421,12 @@ namespace Map
             y.parent = x;
         }
 
-        public Node<TKey,TValue> Find(TKey key)
+        public TValue Find(TKey key)
+        {
+            return FindNode(key).data;
+        }
+        
+        protected Node<TKey,TValue> FindNode(TKey key)
         {
             Node<TKey, TValue> curr = root;
             bool isFound = false;
